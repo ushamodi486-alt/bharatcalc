@@ -1,13 +1,13 @@
 {
-  "name": "Calcura — All-in-One Calculator",
-  "short_name": "Calcura",
-  "description": "Premium offline calculator: basic, scientific, GST, EMI, BMI, age, unit & currency conversion and more.",
+  "name": "BharatCalc — India's Smart Calculator Hub",
+  "short_name": "BharatCalc",
+  "description": "50+ calculators for Finance, Health, Education & Daily Life — in English and Hindi.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#0B0E14",
-  "theme_color": "#0B0E14",
+  "background_color": "#F3F4FA",
+  "theme_color": "#F3F4FA",
   "icons": [
     { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
     { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },

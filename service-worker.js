@@ -1,5 +1,5 @@
-// Calcura service worker — app-shell caching for offline use.
-const CACHE_NAME = "calcura-v1";
+// BharatCalc service worker — app-shell caching for offline use.
+const CACHE_NAME = "bharatcalc-v2";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -14,7 +14,15 @@ self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)).catch(() => {})
   );
-  self.skipWaiting();
+  // Note: no self.skipWaiting() here on purpose — a newly installed SW should
+  // stay "waiting" until the person taps the in-app update banner, so they're
+  // never silently switched to a new version mid-session.
+});
+
+self.addEventListener("message", (event) => {
+  if (event.data && event.data.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
 });
 
 self.addEventListener("activate", (event) => {

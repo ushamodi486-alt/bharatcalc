@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
-<title>Calcura — All-in-One Calculator</title>
-<meta name="description" content="Premium offline calculator with GST, EMI, BMI, age, unit &amp; currency conversion and more.">
-<meta name="theme-color" content="#0B0E14">
+<title>BharatCalc — India's Smart Calculator Hub</title>
+<meta name="description" content="BharatCalc — India's Smart Calculator Hub. 50+ calculators: EMI, SIP, GST, Income Tax, BMI, Age, Unit & Currency conversion and more, in English and Hindi.">
+<meta name="theme-color" content="#F3F4FA">
 <link rel="manifest" href="./manifest.json">
 <link rel="icon" href="./icons/icon-192.png">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
@@ -13,12 +13,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./style.css">
 </head>
-<body data-theme="dark" data-color="violet">
+<body data-theme="light" data-color="blue">
 <div id="glowSetter" class="app">
 
   <!-- Top bar -->
   <div class="topbar">
-    <div class="brand"><span class="brand-dot"></span> Calcura</div>
+    <div class="brand"><span class="brand-dot"></span> BharatCalc</div>
     <div class="topbar-actions">
       <button class="icon-btn" id="voiceBtn" aria-label="Voice input" title="Voice input">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"/></svg>
@@ -54,7 +54,8 @@
     <div class="search-box">
       <input type="text" id="toolSearch" placeholder="Search tools…">
     </div>
-    <div class="tool-grid" id="toolGrid"></div>
+    <div class="chip-row" id="catChips"></div>
+    <div id="toolSections"></div>
   </div>
 
   <!-- TOOL PANEL (opens over Tools view) -->
@@ -62,6 +63,7 @@
     <div class="tool-panel-header">
       <button class="back-btn" id="backBtn" aria-label="Back">←</button>
       <div class="tool-panel-title" id="toolPanelTitle">Tool</div>
+      <button class="icon-btn" id="toolFavBtn" style="margin-left:auto" aria-label="Favorite">☆</button>
     </div>
     <div id="toolBody"></div>
   </div>
@@ -119,14 +121,31 @@
   <div class="setting-row">
     <span class="setting-label">Accent color</span>
     <div class="swatches">
-      <span class="swatch" data-color="violet" style="background:#7C5CFF"></span>
-      <span class="swatch" data-color="rose" style="background:#FF5C93"></span>
-      <span class="swatch" data-color="azure" style="background:#3E9CFF"></span>
-      <span class="swatch" data-color="amber" style="background:#FFB648"></span>
+      <span class="swatch" data-color="blue" style="background:#2F6FED"></span>
+      <span class="swatch" data-color="orange" style="background:#FF8A1E"></span>
+      <span class="swatch" data-color="teal" style="background:#0EA5A5"></span>
+      <span class="swatch" data-color="indigo" style="background:#4F46E5"></span>
     </div>
   </div>
+  <div class="menu-row" id="shareAppBtn">📤 <span data-i18n="shareApp">Share App</span></div>
+  <div class="menu-row" id="rateUsBtn">⭐ <span data-i18n="rateUs">Rate Us</span></div>
+  <div class="menu-row" id="contactUsBtn">✉️ <span data-i18n="contactUs">Contact Us</span></div>
+  <div class="menu-row" id="aboutUsBtn">ℹ️ <span data-i18n="aboutUs">About Us</span></div>
+  <div class="menu-row" id="privacyBtn">🔒 <span data-i18n="privacyPolicy">Privacy Policy</span></div>
+  <div class="menu-row" id="termsBtn">📄 <span data-i18n="terms">Terms &amp; Conditions</span></div>
 </div>
 
+<!-- Info sheet (About / Privacy / Terms static content) -->
+<div class="sheet-backdrop" id="infoBackdrop"></div>
+<div class="sheet" id="infoSheet">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+    <h3 id="infoSheetTitle" style="margin:0">Info</h3>
+    <button class="icon-btn" id="infoCloseBtn" aria-label="Close">✕</button>
+  </div>
+  <div id="infoSheetBody" style="font-size:13.5px;line-height:1.7;color:var(--text-dim)"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="./script.js"></script>
 </body>
 </html>
