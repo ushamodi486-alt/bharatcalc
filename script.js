@@ -83,13 +83,40 @@ function formatNumber(n){
 }
 
 function copyText(txt){
-  navigator.clipboard?.writeText(String(txt)).then(()=>{ toast(t("copied")); vibrate(); })
-    .catch(()=>toast("Could not copy"));
+  const str = String(txt);
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(str).then(()=>{ toast(t("copied")); vibrate(); })
+      .catch(()=>legacyCopy(str));
+  } else {
+    legacyCopy(str);
+  }
+}
+function legacyCopy(str){
+  // Fallback for WebViews (e.g. inside an APK) that don't expose navigator.clipboard.
+  try{
+    const ta = document.createElement("textarea");
+    ta.value = str;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    const ok = document.execCommand("copy");
+    document.body.removeChild(ta);
+    if(ok){ toast(t("copied")); vibrate(); }
+    else { toast(L(`Copy failed — long-press to copy: ${str}`,`कॉपी नहीं हुआ — कॉपी के लिए दबाकर रखें: ${str}`)); }
+  }catch(e){
+    toast(L(`Copy failed — long-press to copy: ${str}`,`कॉपी नहीं हुआ — कॉपी के लिए दबाकर रखें: ${str}`));
+  }
 }
 function shareText(txt){
-  if(navigator.share){
-    navigator.share({ text: String(txt) }).catch(()=>{});
-  } else {
+  try{
+    if(navigator.share){
+      navigator.share({ text: String(txt) }).catch(()=>copyText(txt));
+    } else {
+      copyText(txt);
+    }
+  }catch(e){
     copyText(txt);
   }
 }
@@ -1698,16 +1725,79 @@ function closeInfoSheet(){
 }
 
 function handleShareApp(){
+  openShareSheet();
+}
+
+function openShareSheet(){
+  closeSettings();
   const msg = L("Check out BharatCalc — India's Smart Calculator Hub!","BharatCalc देखें — भारत का स्मार्ट कैलकुलेटर हब!");
-  if(navigator.share){ navigator.share({ title:"BharatCalc", text:msg, url:APP_SHARE_URL }).catch(()=>{}); }
-  else { copyText(`${msg} ${APP_SHARE_URL}`); }
+  const encodedMsg = encodeURIComponent(msg);
+  const encodedUrl = encodeURIComponent(APP_SHARE_URL);
+  const combined = encodeURIComponent(`${msg} ${APP_SHARE_URL}`);
+
+  const platforms = [
+    { icon:"💬", label:"WhatsApp", action:()=>openLink(`https://wa.me/?text=${combined}`) },
+    { icon:"📘", label:"Facebook", action:()=>openLink(`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`) },
+    { icon:"✈️", label:"Telegram", action:()=>openLink(`https://t.me/share/url?url=${encodedUrl}&text=${encodedMsg}`) },
+    { icon:"𝕏", label:L("Twitter / X","Twitter / X"), action:()=>openLink(`https://twitter.com/intent/tweet?text=${encodedMsg}&url=${encodedUrl}`) },
+    { icon:"✉️", label:L("Email","ईमेल"), action:()=>{ window.location.href = `mailto:?subject=${encodeURIComponent("BharatCalc")}&body=${combined}`; } },
+    { icon:"💬", label:L("SMS","एसएमएस"), action:()=>{ window.location.href = `sms:?body=${combined}`; } },
+    { icon:"🔗", label:L("Copy Link","लिंक कॉपी करें"), action:()=>copyText(APP_SHARE_URL) }
+  ];
+  if(navigator.share){
+    platforms.push({ icon:"⋯", label:L("More apps","अन्य ऐप्स"), action:()=>{
+      navigator.share({ title:"BharatCalc", text:msg, url:APP_SHARE_URL }).catch(()=>{});
+    }});
+  }
+
+  const body = document.getElementById("shareSheetBody");
+  body.innerHTML = "";
+  platforms.forEach(p=>{
+    const row = document.createElement("div");
+    row.className = "menu-row";
+    row.innerHTML = `${p.icon} <span>${p.label}</span>`;
+    row.addEventListener("click", ()=>{ try{ p.action(); }catch(e){ copyText(APP_SHARE_URL); } });
+    body.appendChild(row);
+  });
+
+  document.getElementById("shareSheetTitle").textContent = L("Share App","ऐप शेयर करें");
+  document.getElementById("shareBackdrop").classList.add("show");
+  document.getElementById("shareSheet").classList.add("show");
+}
+function closeShareSheet(){
+  document.getElementById("shareBackdrop").classList.remove("show");
+  document.getElementById("shareSheet").classList.remove("show");
+}
+function openLink(url){
+  try{
+    const win = window.open(url, "_blank");
+    if(!win){ window.location.href = url; }
+  }catch(e){
+    window.location.href = url;
+  }
 }
 function handleRateUs(){
-  if(PLAY_STORE_URL){ window.open(PLAY_STORE_URL, "_blank"); }
-  else { toast(L("Not on Play Store yet — sharing the app instead","अभी Play Store पर नहीं — ऐप शेयर कर रहे हैं")); handleShareApp(); }
+  if(PLAY_STORE_URL){
+    try{
+      const win = window.open(PLAY_STORE_URL, "_blank");
+      // Some in-app WebViews (including APK wrappers) silently block window.open —
+      // if it didn't return a window handle, fall back to direct navigation.
+      if(!win){ window.location.href = PLAY_STORE_URL; }
+    }catch(e){
+      window.location.href = PLAY_STORE_URL;
+    }
+  } else {
+    toast(L("Not on Play Store yet — sharing the app instead","अभी Play Store पर नहीं — ऐप शेयर कर रहे हैं"));
+    handleShareApp();
+  }
 }
 function handleContactUs(){
-  window.location.href = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent("BharatCalc Support")}`;
+  try{
+    window.location.href = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent("BharatCalc Support")}`;
+  }catch(e){
+    copyText(SUPPORT_EMAIL);
+    toast(L("Couldn't open mail app — email address copied instead","मेल ऐप नहीं खुला — ईमेल कॉपी कर दिया"));
+  }
 }
 
 /* ---------------- BOOTSTRAP ---------------- */
@@ -1761,6 +1851,8 @@ function init(){
   document.getElementById("termsBtn").addEventListener("click", ()=>openInfoSheet("terms"));
   document.getElementById("infoCloseBtn").addEventListener("click", closeInfoSheet);
   document.getElementById("infoBackdrop").addEventListener("click", closeInfoSheet);
+  document.getElementById("shareCloseBtn").addEventListener("click", closeShareSheet);
+  document.getElementById("shareBackdrop").addEventListener("click", closeShareSheet);
 
   refreshChrome();
   showView("basic");
