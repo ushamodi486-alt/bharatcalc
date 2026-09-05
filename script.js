@@ -1665,7 +1665,7 @@ function closeSettings(){
 /* ---------------- INFO SHEET (About / Privacy / Terms) + SHARE / RATE / CONTACT ---------------- */
 // TODO: replace with your real Play Store listing URL once BharatCalc is published, and your real support email.
 const PLAY_STORE_URL = "";
-const SUPPORT_EMAIL = "support@bharatcalc.app";
+const SUPPORT_EMAIL = "barunkumar73552@gmail.com";
 const APP_SHARE_URL = "https://bharatcalc-chi.vercel.app";
 
 function getInfoContent(key){
@@ -1687,11 +1687,9 @@ function getInfoContent(key){
         `<p>BharatCalc respects your privacy. Calculations you perform, your history, and your settings are stored only on your own device (local storage) — we do not collect or transmit this data to any server.</p>
          <p>The Currency Converter fetches live exchange rates from a third-party rate provider over the internet; no personal data is sent with that request.</p>
          <p>If this app is downloaded from an app store, that store may collect standard install/usage analytics under its own privacy policy.</p>
-         <p><em>This is placeholder text — please review and customize it with your business details before publishing.</em></p>`,
-        `<p>BharatCalc आपकी गोपनीयता का सम्मान करता है। आपकी गणनाएं, इतिहास और सेटिंग्स केवल आपके डिवाइस पर (लोकल स्टोरेज में) सेव होती हैं — हम इसे किसी सर्वर पर नहीं भेजते।</p>
-         <p>करेंसी कन्वर्टर लाइव दरों के लिए एक थर्ड-पार्टी सेवा से इंटरनेट पर संपर्क करता है; इसमें कोई व्यक्तिगत जानकारी नहीं भेजी जाती।</p>
-         <p>अगर यह ऐप किसी ऐप स्टोर से डाउनलोड की गई है, तो वह स्टोर अपनी नीति अनुसार सामान्य इंस्टॉल/उपयोग डेटा एकत्र कर सकता है।</p>
-         <p><em>यह प्लेसहोल्डर टेक्स्ट है — कृपया प्रकाशित करने से पहले अपनी जानकारी के अनुसार इसे बदलें।</em></p>`
+         <p>Questions or concerns about your data? Contact us at barunkumar73552@gmail.com.</p>`,
+        `<p>अगर यह ऐप किसी ऐप स्टोर से डाउनलोड की गई है, तो वह स्टोर अपनी नीति अनुसार सामान्य इंस्टॉल/उपयोग डेटा एकत्र कर सकता है।</p>
+         <p>आपके डेटा से जुड़े किसी भी सवाल के लिए संपर्क करें: barunkumar73552@gmail.com</p>`
       )
     },
     terms:{
@@ -1700,11 +1698,11 @@ function getInfoContent(key){
         `<p>BharatCalc is provided for general informational and estimation purposes only. Results (EMI, tax, health metrics, construction quantities, etc.) are approximate and should not be treated as professional financial, medical, legal, or engineering advice.</p>
          <p>Always verify important calculations with a qualified professional (CA, doctor, structural engineer, etc.) before making decisions based on them.</p>
          <p>We aim for accuracy but do not guarantee the app is error-free or uninterrupted.</p>
-         <p><em>This is placeholder text — please review and customize it with your business details before publishing.</em></p>`,
+         <p>For any questions about these terms, contact us at barunkumar73552@gmail.com.</p>`,
         `<p>BharatCalc केवल सामान्य जानकारी व अनुमान हेतु उपलब्ध है। परिणाम (EMI, टैक्स, स्वास्थ्य, निर्माण मात्रा आदि) अनुमानित हैं और इन्हें पेशेवर वित्तीय, चिकित्सा, कानूनी या इंजीनियरिंग सलाह न समझें।</p>
          <p>महत्वपूर्ण निर्णय लेने से पहले किसी योग्य विशेषज्ञ (CA, डॉक्टर, इंजीनियर आदि) से पुष्टि अवश्य करें।</p>
          <p>हम सटीकता का प्रयास करते हैं लेकिन ऐप के पूर्णतः त्रुटि-रहित होने की गारंटी नहीं देते।</p>
-         <p><em>यह प्लेसहोल्डर टेक्स्ट है — कृपया प्रकाशित करने से पहले अपनी जानकारी के अनुसार इसे बदलें।</em></p>`
+         <p>इन शर्तों से जुड़े किसी भी सवाल के लिए संपर्क करें: barunkumar73552@gmail.com</p>`
       )
     }
   };
