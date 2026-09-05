@@ -163,6 +163,10 @@ function evaluateExpression(raw){
 
   expr = expr.replace(/(\d+(\.\d+)?)!/g, (m, n) => `factorial(${n})`);
 
+  // Implicit multiplication: "5π" -> "5*Math.PI", "5(", ")(", ")5", "5sin(" etc.
+  expr = expr.replace(/([0-9)])(Math\.PI|sin|cos|tan|log|ln|sqrt|cbrt|\()/g, "$1*$2");
+  expr = expr.replace(/(\)|Math\.PI)([0-9(])/g, "$1*$2");
+
   const trigFn = state.angleMode === "deg" ? { sin:"sinD", cos:"cosD", tan:"tanD" }
                                             : { sin:"Math.sin", cos:"Math.cos", tan:"Math.tan" };
   expr = expr.replace(/sin\(/g, trigFn.sin + "(")
