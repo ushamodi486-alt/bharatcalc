@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.varunnkumar.bharatcalc",
+    "sha256_cert_fingerprints": ["AC:7D:D8:00:11:49:4A:29:57:EF:41:C6:56:F5:DF:EF:6B:54:9A:57:F0:33:6C:F2:55:AB:4B:C0:4C:21:85:AB"]
+  }
+}]
